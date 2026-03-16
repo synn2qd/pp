@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PremiumPortfolios</title>
+  <meta name="description" content="A clean portfolio builder with a work-first showcase and centered profile image." />
+  <link rel="stylesheet" href="styles.css" />
+
+<style>
+.preview-frame{background:transparent !important;border:none !important;box-shadow:none !important;border-radius:0 !important;padding:0 !important;}
+.preview-grid{background:#fff !important;padding:0 !important;border-radius:0 !important;gap:8px !important;}
+.preview-tile{border-radius:0 !important;}
+</style>
+
+
+
+
+<style id='cross-only-fix'>
+/* cross-lines only */
+.preview-frame,
+.preview-shell,
+.preview-wrapper,
+.grid-shell,
+.grid-frame{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.preview-grid,
+.grid-preview,
+.grid{
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.preview-grid::before,
+.grid-preview::before,
+.grid::before{
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  width: 8px !important;
+  transform: translateX(-50%) !important;
+  background: #fff !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+.preview-grid::after,
+.grid-preview::after,
+.grid::after{
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 50% !important;
+  height: 8px !important;
+  transform: translateY(-50%) !important;
+  background: #fff !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+.preview-grid > *,
+.grid-preview > *,
+.grid > *,
+.preview-tile{
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+.preview-grid img,
+.grid-preview img,
+.grid img,
+.preview-tile img{
+  display: block !important;
+}
+</style>
+<style id='outer-edge-fix'>
+/* cross-only outer-edge removal */
+.preview-grid,
+.grid,
+.grid-preview,
+.portfolio-grid{
+  position: relative !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+.preview-grid::before,
+.grid::before,
+.grid-preview::before,
+.portfolio-grid::before{
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  width: 8px !important;
+  transform: translateX(-50%) !important;
+  background: var(--preview-bg, #ffffff) !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+}
+
+.preview-grid::after,
+.grid::after,
+.grid-preview::after,
+.portfolio-grid::after{
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 50% !important;
+  height: 8px !important;
+  transform: translateY(-50%) !important;
+  background: var(--preview-bg, #ffffff) !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+}
+
+.preview-grid > *,
+.grid > *,
+.grid-preview > *,
+.portfolio-grid > *,
+.preview-tile,
+.portfolio-card{
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* kill outer colored rims on tiles while keeping rounded image corners */
+.preview-tile,
+.portfolio-card{
+  padding: 0 !important;
+}
+
+.preview-tile img,
+.portfolio-card img{
+  display:block !important;
+}
+</style>
+<style id='thumb-radius-fix'>
+/* remove thumbnail rounded corners */
+.preview-tile,
+.portfolio-card,
+.preview-grid > *,
+.grid > *,
+.grid-preview > *,
+.portfolio-grid > *{
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}
+
+.preview-tile img,
+.portfolio-card img,
+.preview-grid > * img,
+.grid > * img,
+.grid-preview > * img,
+.portfolio-grid > * img{
+  border-radius: 0 !important;
+}
+</style>
+<style id='match-ref-fix'>
+/* match reference grid exactly */
+.preview-grid,
+.grid,
+.grid-preview,
+.portfolio-grid{
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 6px !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+.preview-grid::before,
+.preview-grid::after,
+.grid::before,
+.grid::after,
+.grid-preview::before,
+.grid-preview::after,
+.portfolio-grid::before,
+.portfolio-grid::after{
+  display: none !important;
+  content: none !important;
+}
+
+.preview-grid > *,
+.grid > *,
+.grid-preview > *,
+.portfolio-grid > *,
+.preview-tile,
+.portfolio-card{
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.preview-grid img,
+.grid img,
+.grid-preview img,
+.portfolio-grid img,
+.preview-tile img,
+.portfolio-card img{
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
+}
+
+/* center pfp should sit above the gap, not cut by fake lines */
+.preview-pfp,
+.center-pfp,
+.pfp-center,
+.preview-avatar,
+.pfp-wrap,
+.pfp-wrapper{
+  position: absolute !important;
+  z-index: 20 !important;
+}
+</style>
+<style id='square-outer-fix'>
+/* square outer corners and edges */
+.preview-grid,
+.grid,
+.grid-preview,
+.portfolio-grid,
+.preview-grid > *,
+.grid > *,
+.grid-preview > *,
+.portfolio-grid > *,
+.preview-tile,
+.portfolio-card{
+  border-radius: 0 !important;
+}
+
+.preview-grid img,
+.grid img,
+.grid-preview img,
+.portfolio-grid img,
+.preview-tile img,
+.portfolio-card img{
+  border-radius: 0 !important;
+}
+</style>
+<style id='force-square-fix'>
+/* force absolutely everything in the preview grid to square corners */
+.preview-grid,
+.grid,
+.grid-preview,
+.portfolio-grid,
+.preview-grid *,
+.grid *,
+.grid-preview *,
+.portfolio-grid *{
+  border-radius: 0 !important;
+}
+
+.preview-grid img,
+.grid img,
+.grid-preview img,
+.portfolio-grid img{
+  border-radius: 0 !important;
+  clip-path: inset(0 round 0) !important;
+  -webkit-clip-path: inset(0 round 0) !important;
+}
+
+.preview-grid,
+.grid,
+.grid-preview,
+.portfolio-grid{
+  overflow: visible !important;
+}
+</style>
+<style id='true-square-fix'>
+/* true square corners */
+.portfolio-stage,
+.preview-grid,
+.portfolio-grid,
+.portfolio-card,
+.preview-tile,
+.portfolio-grid .portfolio-card img,
+.preview-grid > * img{
+  border-radius: 0 !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+}
+
+.portfolio-grid .portfolio-card:nth-child(1) img,
+.portfolio-grid .portfolio-card:nth-child(2) img,
+.portfolio-grid .portfolio-card:nth-child(3) img,
+.portfolio-grid .portfolio-card:nth-child(4) img{
+  border-radius: 0 !important;
+}
+</style>
+</head>
+<body>
+  <div class="bg-glow glow-one"></div>
+  <div class="bg-glow glow-two"></div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#" class="brand">
+        <span class="brand-dot"></span>
+        <span>PremiumPortfolios</span>
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="#builder">Builder</a>
+        <a href="#preview">Preview</a>
+        <a href="#export">Export</a>
+      </nav>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="mobile-nav">
+      <a href="#builder">Builder</a>
+      <a href="#preview">Preview</a>
+      <a href="#export">Export</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">portfolio builder</p>
+          <h1>Show the work first.</h1>
+          <p class="hero-text">
+            Upload your best thumbnails, add a profile picture, and generate a cleaner portfolio page
+            where the focus stays on the work.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#builder" class="btn btn-primary">Start Building</a>
+          </div>
+        </div>
+
+            <div class="hero-preview-pfp"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="builder">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">builder</p>
+          <h2>Build the portfolio.</h2>
+        </div>
+
+        <div class="builder-grid">
+          <div class="panel builder-panel">
+            <div class="field">
+              <label>Preview background color</label>
+              <div class="color-controls">
+                <input id="bgColorPicker" type="color" value="#ffffff" />
+                <input id="bgColorText" type="text" value="#ffffff" placeholder="#ffffff" />
+              </div>
+            </div>
+
+
+            <div class="uploader pfp-uploader">
+              <div class="uploader-head">
+                <div>
+                  <label class="upload-label">Profile picture</label>
+                  <p class="upload-note">Add one profile image for the centered circle.</p>
+                </div>
+                <div class="button-row compact">
+                  <button class="btn btn-secondary" type="button" id="addPfpBtn">Add PFP</button>
+                  <button class="btn btn-secondary" type="button" id="clearPfpBtn">Clear</button>
+                </div>
+              </div>
+
+              <div class="pfp-shell" id="pfpShell">
+                <div class="pfp-empty">No profile picture yet.</div>
+              </div>
+            </div>
+
+            <div class="uploader work-uploader">
+              <div class="uploader-head">
+                <div>
+                  <label class="upload-label">Upload work</label>
+                  <p class="upload-note">Add multiple images at once or in batches. Reorder them below.</p>
+                </div>
+                <div class="button-row compact">
+                  <button class="btn btn-secondary" type="button" id="addWorkBtn">Add Work</button>
+                  <button class="btn btn-secondary" type="button" id="clearWorkBtn">Clear</button>
+                </div>
+              </div>
+
+              <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Upload work">
+                <div class="drop-icon"></div>
+                <strong>Drop images here</strong>
+                <span>or click Add Work</span>
+              </div>
+
+              <div class="upload-strip" id="uploadStrip">
+                <div class="upload-empty">Your uploaded work will appear here.</div>
+              </div>
+            </div>
+
+            <div class="button-row">
+              <button class="btn btn-primary" type="button" id="generateBtn">Generate Preview</button>
+              <button class="btn btn-secondary" type="button" id="resetBtn">Reset</button>
+            </div>
+          </div>
+
+          <div class="panel side-panel">
+            <p class="eyebrow small">layout</p>
+            <h3>Clean portfolio structure</h3>
+            <ul class="info-list">
+              <li>2 x 2 thumbnail-only layout</li>
+              <li>no project name or role text</li>
+              <li>centered circular profile image</li>
+              <li>thumbnail-first grid showcase</li>
+              <li>downloadable preview image</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+<section class="section" id="preview">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">preview</p>
+      <h2>Portfolio preview.</h2>
+    </div>
+
+    <article class="portfolio-shell" id="portfolioShell">
+      <div class="empty-state">
+        <div class="empty-icon"></div>
+        <h3>Your portfolio will appear here.</h3>
+        <p>Add your profile picture and work to generate the preview.</p>
+      </div>
+    </article>
+
+    <div class="preview-download-wrap">
+      <button class="btn btn-primary" type="button" id="downloadPreviewBtn">Download Image</button>
+      <p class="status-text" id="statusText">Generate the preview first, then download it.</p>
+    </div>
+  </div>
+</section>
+
+  </main>
+
+  <div class="preview-popup" id="previewPopup" aria-hidden="true">
+    <div class="preview-popup-card">
+      <p class="eyebrow small">preview ready</p>
+      <h3>Your image is ready.</h3>
+      <div class="button-row popup-actions">
+        <a href="#preview" class="btn btn-primary">Open Preview</a>
+        <button class="btn btn-secondary" type="button" id="closePopupBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
